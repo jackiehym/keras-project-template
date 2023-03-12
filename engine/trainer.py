@@ -12,7 +12,7 @@ from utils.history import save_history
 class ModelTrainer:
     def __init__(self, model, train_data, val_data):
         self.callbacks = []
-        self.model : Model= model
+        self.model: Model = model
         self.train_data = train_data
         self.val_data = val_data
         self.init_callbacks()

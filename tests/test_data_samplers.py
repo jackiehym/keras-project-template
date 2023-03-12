@@ -11,7 +11,6 @@ sys.path.append('.')
 from config.defaults import _C as cfg
 from data.transforms import build_transforms
 from data.build import build_dataset
-from solver.build import make_optimizer
 from modeling import build_model
 
 

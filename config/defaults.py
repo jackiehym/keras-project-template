@@ -1,23 +1,12 @@
 from yacs.config import CfgNode as CN
 
 # -----------------------------------------------------------------------------
-# Convention about Training / Test specific parameters
-# -----------------------------------------------------------------------------
-# Whenever an argument can be either used for training or for testing, the
-# corresponding name will be post-fixed by a _TRAIN for a training parameter,
-# or _TEST for a test-specific parameter.
-# For example, the number of images during training will be
-# IMAGES_PER_BATCH_TRAIN, while the number of images for testing will be
-# IMAGES_PER_BATCH_TEST
-
-# -----------------------------------------------------------------------------
 # Config definition
 # -----------------------------------------------------------------------------
 
 _C = CN()
 
 _C.MODEL = CN()
-_C.MODEL.DEVICE = "cuda"
 _C.MODEL.NUM_CLASSES = 10
 
 # -----------------------------------------------------------------------------
@@ -25,35 +14,19 @@ _C.MODEL.NUM_CLASSES = 10
 # -----------------------------------------------------------------------------
 _C.INPUT = CN()
 # Size of the image during training
-_C.INPUT.SIZE_TRAIN = 32
-# Size of the image during test
-_C.INPUT.SIZE_TEST = 32
-# Minimum scale for the image during training
-_C.INPUT.MIN_SCALE_TRAIN = 0.5
-# Maximum scale for the image during test
-_C.INPUT.MAX_SCALE_TRAIN = 1.2
-# Random probability for image horizontal flip
-_C.INPUT.PROB = 0.5
-# Values to be used for image normalization
-_C.INPUT.PIXEL_MEAN = [0.1307, ]
-# Values to be used for image normalization
-_C.INPUT.PIXEL_STD = [0.3081, ]
+_C.INPUT.SIZE = (256, 256, 1)
+# Mode of the image
+_C.INPUT.IS_GRAY = True
 
 # -----------------------------------------------------------------------------
 # Dataset
 # -----------------------------------------------------------------------------
 _C.DATASETS = CN()
-# List of the dataset names for training, as present in paths_catalog.py
-_C.DATASETS.TRAIN = ()
-# List of the dataset names for testing, as present in paths_catalog.py
-_C.DATASETS.TEST = ()
+# the path of train, valid and test dataset
+_C.DATASETS.TRAIN_PATH = ""
+_C.DATASETS.VALID_PATH = ""
+_C.DATASETS.TEST_PATH = ""
 
-# -----------------------------------------------------------------------------
-# DataLoader
-# -----------------------------------------------------------------------------
-_C.DATALOADER = CN()
-# Number of data loading threads
-_C.DATALOADER.NUM_WORKERS = 8
 
 # ---------------------------------------------------------------------------- #
 # Solver
@@ -86,11 +59,23 @@ _C.SOLVER.LOG_PERIOD = 100
 # see 2 images per batch
 _C.SOLVER.IMS_PER_BATCH = 16
 
+
+# ---------------------------------------------------------------------------- #
+# Train
+# ---------------------------------------------------------------------------- #
+_C.TRAIN = CN()
+# train and valid steps per epoch
+_C.TRAIN.TRAIN_STEPS = 16
+_C.TRAIN.VAL_STEPS = 16
+_C.TRAIN.SAVE_HISTORY = True
+_C.TRAIN.WORKERS = 1
+_C.TRAIN.BATCH_SIZE = 32
+
+
 # This is global, so if we have 8 GPUs and IMS_PER_BATCH = 16, each GPU will
 # see 2 images per batch
 _C.TEST = CN()
 _C.TEST.IMS_PER_BATCH = 8
-_C.TEST.WEIGHT = ""
 
 # ---------------------------------------------------------------------------- #
 # Misc options
